@@ -4,29 +4,59 @@
  */
 package card;
 
-/**
- * A class that fills a magic hand of 7 cards with random Card Objects
- * and then asks the user to pick a card and searches the array of cards
- * for the match to the user's card. To be used as starting code in ICE 1
- * @author srinivsi
- */
+import java.util.Random;
+import java.util.Scanner;
+
 public class CardTrick {
-    
-    public static void main(String[] args)
-    {
-        Card[] magicHand = new Card[7];
-        
-        for (int i=0; i<magicHand.length; i++)
-        {
-            Card c = new Card();
-            //c.setValue(insert call to random number generator here)
-            //c.setSuit(Card.SUITS[insert call to random number between 0-3 here])
+    private static final String[] suits = {"Hearts", "Diamonds", "Clubs", "Spades"};
+    private static final String[] ranks = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"};
+
+    public static void main(String[] args) {
+        // Generate a hand of seven random cards
+        String[] hand = generateRandomHand();
+
+        // Print the generated hand
+        System.out.println("Generated Hand:");
+        for (String card : hand) {
+            System.out.println(card);
         }
-        
-        //insert code to ask the user for Card value and suit, create their card
-        // and search magicHand here
-        //Then report the result here
-        // add one luckcard hard code 2,clubs
+
+        // Ask the user to pick a card
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Pick a card (e.g., 7 of Diamonds): ");
+        String userCard = scanner.nextLine();
+
+        // Search the array for the user's card
+        boolean isCardInHand = isCardInHand(userCard, hand);
+
+        // Report the result
+        if (isCardInHand) {
+            System.out.println("Congratulations! Your card is in the magic hand.");
+        } else {
+            System.out.println("Sorry, your card is not in the magic hand.");
+        }
     }
-    
+
+    private static String[] generateRandomHand() {
+        String[] hand = new String[7];
+        Random random = new Random();
+
+        for (int i = 0; i < 7; i++) {
+            String suit = suits[random.nextInt(suits.length)];
+            String rank = ranks[random.nextInt(ranks.length)];
+            hand[i] = rank + " of " + suit;
+        }
+
+        return hand;
+    }
+
+    private static boolean isCardInHand(String card, String[] hand) {
+        // Check if the user's card is in the hand
+        for (String handCard : hand) {
+            if (handCard.equals(card)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
